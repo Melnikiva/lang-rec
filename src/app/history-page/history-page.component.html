@@ -1,1 +1,15 @@
-<p>history-page works!</p>,
+<nz-list nzGrid style="margin: 10vh 10vw">
+  <div nz-row [nzGutter]="16">
+    <div nz-col [nzSpan]="12" *ngFor="let item of data">
+      <nz-list-item>
+        <nz-card [nzTitle]="item.language"
+          ><div>
+            {{ item.text }}
+            <p>{{ item.updated_at }}</p>
+          </div></nz-card
+        >
+      </nz-list-item>
+    </div>
+  </div>
+</nz-list>
+<nz-empty *ngIf="data.length === 0"></nz-empty>

@@ -1,11 +1,41 @@
 <nz-layout style="height: 100%">
-  <nz-header>
-    <ul nz-menu nzTheme="dark" nzMode="horizontal">
-      <li nz-menu-item nzMatchRouter="upload" routerLink="upload">
-        Recognition
-      </li>
-      <li nz-menu-item nzMatchRouter="history" routerLink="history">History</li>
-    </ul>
+  <nz-header style="display: flex; justify-content: space-between">
+    <div>
+      <ul nz-menu nzTheme="dark" nzMode="horizontal">
+        <li nz-menu-item nzMatchRouter="upload" routerLink="upload">
+          Recognition
+        </li>
+        <li
+          nz-menu-item
+          nzMatchRouter="history"
+          routerLink="history"
+          (click)="loadHistory()"
+        >
+          History
+        </li>
+      </ul>
+    </div>
+    <div>
+      <ul nz-menu nzTheme="dark" nzMode="horizontal">
+        <li
+          nz-menu-item
+          nzMatchRouter="login"
+          routerLink="login"
+          *ngIf="!(user$ | async)!.isLogged"
+        >
+          Login
+        </li>
+        <li
+          nz-menu-item
+          nzMatchRouter="login"
+          routerLink="login"
+          (click)="logOut()"
+          *ngIf="(user$ | async)!.isLogged"
+        >
+          Log Out
+        </li>
+      </ul>
+    </div>
   </nz-header>
   <nz-content style="height: 100%">
     <router-outlet style="height: 100%"></router-outlet>

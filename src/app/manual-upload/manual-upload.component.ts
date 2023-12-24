@@ -30,7 +30,7 @@ export class ManualUploadComponent {
   handleUpload(): void {
     this.uploading = true;
     this.recordingCallback.emit();
-      this.uploadService.uploadRecordingFile(this.fileList.pop()!).subscribe(response => {
+      this.uploadService.uploadRecordingFile(this.fileList.pop()!).then(response => {
         console.log(response);
         this.uploading = false;
         this.result.emit(response);

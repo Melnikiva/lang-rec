@@ -7,17 +7,31 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { UploadService } from './upload-service/upload.service';
-import { ManualUploadComponent } from './manual-upload/manual-upload.component';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { Select, Store } from '@ngxs/store';
+import { LoadHistory, LogOut, UserState, UserStateModel } from './state/user.state';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, RouterOutlet, UploadAreaComponent, 
-            RecordAreaComponent, NzLayoutModule, NzMenuModule, NzIconModule, RouterLink],
+            RecordAreaComponent, NzLayoutModule, NzMenuModule, NzIconModule, RouterLink, NzGridModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less'],
-  providers: [UploadService]
 })
 export class AppComponent {
   title = 'lang-rec';
+
+  @Select(UserState) user$!: Observable<UserStateModel>;
+
+  constructor(private store: Store) {}
+
+  logOut() {
+    this.store.dispatch(new LogOut());
+  }
+
+  loadHistory() {
+    this.store.dispatch(new LoadHistory());
+  }
 }
