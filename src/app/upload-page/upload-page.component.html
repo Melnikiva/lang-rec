@@ -1,0 +1,34 @@
+<div class="flex-center">
+  <nz-steps [nzCurrent]="currentStep.getValue()" nzSize="small" class="steps">
+    <nz-step nzTitle="Upload"></nz-step>
+    <nz-step nzTitle="Uploading"></nz-step>
+    <nz-step nzTitle="Processing"></nz-step>
+    <nz-step nzTitle="Result"></nz-step>
+  </nz-steps>
+</div>
+<div
+  class="flex-center"
+  style="height: 100%; margin-top: 15vh"
+  *ngIf="!showResult"
+>
+  <h2>Upload WAV voice sample</h2>
+  <app-manual-upload
+    class="upload"
+    (recordingCallback)="manualUploadCallback()"
+    (result)="handleResult($event)"
+  />
+  <h2>OR</h2>
+  <h2>Record an audio sample</h2>
+  <app-record-area (recordingCallback)="recordingCallback($event)" />
+</div>
+<div
+  class="flex-center"
+  style="height: 100%; margin-top: 15vh"
+  *ngIf="showResult"
+>
+  <nz-card [nzTitle]="'Language: ' + result.language" class="result-card">
+    <b>Text:</b>
+    <p>{{ result.text }}</p>
+  </nz-card>
+  <button nz-button class="return-button" (click)="restart()">Return</button>
+</div>

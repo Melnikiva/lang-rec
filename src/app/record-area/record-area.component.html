@@ -1,0 +1,14 @@
+<div>
+  <button nz-button *ngIf="!this.isRecording" (click)="startRecording()">
+    Start recording
+  </button>
+  <button nz-button *ngIf="this.isRecording" (click)="stopRecording()">
+    Stop recording
+  </button>
+  <span
+    nz-icon
+    [nzType]="'loading'"
+    class="loading"
+    *ngIf="this.isRecording"
+  ></span>
+</div>

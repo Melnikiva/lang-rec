@@ -1,0 +1,8 @@
+<nz-upload
+  [nzMultiple]="false"
+  (nzChange)="handleChange($event)"
+  nzAction="https://f395-37-55-254-212.ngrok-free.app/language/recognize"
+  nzAccept="audio/wav"
+>
+  <button nz-button nzType="default">Click to Upload</button>
+</nz-upload>
