@@ -1,6 +1,6 @@
 <nz-list nzGrid style="margin: 10vh 10vw" *ngIf="(user$ | async)?.history">
   <div nz-row [nzGutter]="16">
-    <div nz-col [nzSpan]="12" *ngFor="let item of data">
+    <div nz-col [nzSpan]="12" *ngFor="let item of data.reverse()">
       <nz-list-item>
         <nz-card [nzTitle]="item.language"
           ><div>
