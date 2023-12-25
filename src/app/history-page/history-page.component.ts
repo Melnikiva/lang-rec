@@ -8,27 +8,33 @@ import { UploadService } from '../upload-service/upload.service';
 import { Select, Store } from '@ngxs/store';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { UserState, UserStateModel } from '../state/user.state';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { HistoryData } from './history';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 @Component({
   selector: 'app-history-page',
   standalone: true,
   imports: [
-    CommonModule, NzListModule, NzGridModule, NzCardModule, NzEmptyModule
+    CommonModule, NzListModule, NzGridModule, NzCardModule, NzEmptyModule, NzTypographyModule, NzDividerModule
   ],
   templateUrl: './history-page.component.html',
   styleUrl: './history-page.component.less',
 })
-export class HistoryPageComponent implements OnInit { 
+export class HistoryPageComponent { 
   data: HistoryData[] = []; 
+  @Select(UserState) user$!: Observable<UserStateModel>;
   constructor(private store: Store) {
-
-  }
-  ngOnInit(): void {
     this.store.selectOnce<UserStateModel>(UserState).subscribe((user) => {
       this.data = [...user.history];
       console.log(user)
     }) 
+    setTimeout(() => {
+      this.store.selectOnce<UserStateModel>(UserState).subscribe((user) => {
+        this.data = [...user.history];
+        console.log(user)
+      }) 
+    }, 1000)
   }
 }

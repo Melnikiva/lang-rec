@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { NzMessageService } from "ng-zorro-antd/message";
 import { UserStateModel } from "../state/user.state";
 
-const SERVER_ENDPOINT = 'https://0dd8-37-55-254-212.ngrok-free.app';
+const SERVER_ENDPOINT = 'https://c66c-31-144-101-244.ngrok-free.app';
 
 export interface LoginData {
     email: string;

@@ -33,6 +33,10 @@ export class UploadRecording {
 
 @State<UserStateModel>({
     name: 'user',
+    defaults: {
+        history: [],
+        isLogged: false
+    }
 })
 @Injectable()
 export class UserState {
@@ -77,7 +81,7 @@ export class UserState {
     uploadRecording(ctx: StateContext<UserStateModel>, action: UploadRecording) {
         const state = ctx.getState();
         if (state.isLogged) {
-            this.uploadService.uploadRecordingFile(action.recording)
+            this.uploadService.uploadRecordingFile(action.recording, state.isLogged)
         }
     }
 }

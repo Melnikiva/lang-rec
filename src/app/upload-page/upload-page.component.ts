@@ -7,6 +7,8 @@ import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { BehaviorSubject } from 'rxjs';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { Store } from '@ngxs/store';
+import { UserState, UserStateModel } from '../state/user.state';
 
 @Component({
   selector: 'app-upload-page',
@@ -30,7 +32,7 @@ export class UploadPageComponent {
     language: '',
     text: ''
   };
-  constructor(private uploadService: UploadService) {
+  constructor(private uploadService: UploadService, private store: Store) {
     this.currentStep.next(0);
     this.currentStep.subscribe((step) => {
       if (step === 3) {
@@ -42,7 +44,12 @@ export class UploadPageComponent {
   recordingCallback(event: Promise<Blob>) {
     event.then((wavBlob) => {
       this.currentStep.next(1);
-      this.uploadService.uploadRecordingBlob(wavBlob);
+      this.store.select<UserStateModel>(UserState).subscribe((user) => {
+        this.uploadService.uploadRecordingBlob(wavBlob, user.isLogged).then((res) => {
+          this.handleResult(res);
+        });
+      })
+      setTimeout(() => {this.currentStep.next(2)}, 2000);
     })
   }
   manualUploadCallback() {

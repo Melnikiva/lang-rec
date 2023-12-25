@@ -6,7 +6,7 @@ import { Observable, firstValueFrom, lastValueFrom } from "rxjs";
 import { HistoryResponse, UserState, UserStateModel } from "../state/user.state";
 import { HistoryData } from "../history-page/history";
 
-const SERVER_ENDPOINT = 'https://0dd8-37-55-254-212.ngrok-free.app';
+const SERVER_ENDPOINT = 'https://c66c-31-144-101-244.ngrok-free.app';
 
 @Injectable()
 export class UploadService {
@@ -15,26 +15,32 @@ export class UploadService {
         private msg: NzMessageService, 
         private store: Store) {}
 
-    uploadRecordingBlob(recording: Blob) {
+    async uploadRecordingBlob(recording: Blob, isLogged: boolean) {
         const file: File = new File([recording], 'recording.wav');
         let data: FormData = new FormData();
-        data.append('file', file, file.name);
+        data.append('file', file);
         data.append('type', 'Audio');
 
-        return this.http.post(SERVER_ENDPOINT + '/language/recognize', data).subscribe(response => {
-            console.log(response);
-            this.msg.info(response.toString());
-        }); 
+        if (isLogged) {
+            const header = {
+                headers: new HttpHeaders().set('Authorization',(await firstValueFrom(this.store.selectOnce<UserStateModel>(UserState))).token!).append("ngrok-skip-browser-warning", "69420")
+            }
+            return await firstValueFrom(this.http.post<ResponseData>(SERVER_ENDPOINT + '/language/recognize', data, header));
+           }
+            return await firstValueFrom(this.http.post<ResponseData>(SERVER_ENDPOINT + '/language/recognize', data));
     }
 
-    async uploadRecordingFile(recording: any): Promise<ResponseData> {
+    async uploadRecordingFile(recording: any, isLogged: boolean): Promise<ResponseData> {
         let data: FormData = new FormData();
         data.append('file', recording);
         data.append('type', 'Audio');
+       if (isLogged) {
         const header = {
             headers: new HttpHeaders().set('Authorization',(await firstValueFrom(this.store.selectOnce<UserStateModel>(UserState))).token!).append("ngrok-skip-browser-warning", "69420")
         }
         return await firstValueFrom(this.http.post<ResponseData>(SERVER_ENDPOINT + '/language/recognize', data, header));
+       }
+        return await firstValueFrom(this.http.post<ResponseData>(SERVER_ENDPOINT + '/language/recognize', data));
     }
 
     getHistory(token: string) {

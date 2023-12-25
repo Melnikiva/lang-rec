@@ -3,6 +3,8 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile, NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { ResponseData, UploadService } from '../upload-service/upload.service';
+import { Store } from '@ngxs/store';
+import { UserState, UserStateModel } from '../state/user.state';
 
 @Component({
   selector: 'app-manual-upload',
@@ -19,7 +21,8 @@ export class ManualUploadComponent {
 
   constructor(
     private msg: NzMessageService,
-    private uploadService: UploadService
+    private uploadService: UploadService,
+    private store: Store
   ) {}
 
   beforeUpload = (file: NzUploadFile): boolean => {
@@ -30,10 +33,12 @@ export class ManualUploadComponent {
   handleUpload(): void {
     this.uploading = true;
     this.recordingCallback.emit();
-      this.uploadService.uploadRecordingFile(this.fileList.pop()!).then(response => {
+    this.store.selectOnce<UserStateModel>(UserState).subscribe((user) => {
+      this.uploadService.uploadRecordingFile(this.fileList.pop()!, user.isLogged).then(response => {
         console.log(response);
         this.uploading = false;
         this.result.emit(response);
-    });;
+    });
+    })
   }
 }
