@@ -2,8 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { NzMessageService } from "ng-zorro-antd/message";
 import { UserStateModel } from "../state/user.state";
-
-const SERVER_ENDPOINT = 'https://c66c-31-144-101-244.ngrok-free.app';
+import { SERVER_ENDPOINT } from "./constants";
 
 export interface LoginData {
     email: string;

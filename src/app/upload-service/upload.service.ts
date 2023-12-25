@@ -5,8 +5,7 @@ import { NzMessageService } from "ng-zorro-antd/message";
 import { Observable, firstValueFrom, lastValueFrom } from "rxjs";
 import { HistoryResponse, UserState, UserStateModel } from "../state/user.state";
 import { HistoryData } from "../history-page/history";
-
-const SERVER_ENDPOINT = 'https://c66c-31-144-101-244.ngrok-free.app';
+import { SERVER_ENDPOINT } from "./constants";
 
 @Injectable()
 export class UploadService {
